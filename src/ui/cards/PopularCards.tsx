@@ -21,10 +21,11 @@ const PopularCards: FC<BookCardsProps> = ({ book, onClick }) => {
 
   const fixImageUrl = (url: string | null | undefined) => {
     if (!url) return null;
-    if (url.startsWith("http://")) return url;
-    return `http://80.242.57.16:8080${url}`;
+    if (url.startsWith("http://80.242.57.16:8080")) return url;
+    if (url.startsWith("http://80.242.57.16"))
+      return url.replace("http://80.242.57.16", "http://80.242.57.16:8080");
+    return url;
   };
-
   return (
     <article
       onClick={handleClick}
