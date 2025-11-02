@@ -59,26 +59,64 @@ const DetailsPage: FC = () => {
     return url;
   };
 
-  // ✅ Универсальная функция скачивания
+  // ✅ Исправленная функция скачивания
   const handleDownload = async (id: string, name: string) => {
-    const downloadUrl = `${window.location.protocol}//${
-      window.location.hostname
-    }${
-      window.location.port ? `:${window.location.port}` : ""
-    }/books/${id}/download/`;
-
     setIsDownloading(true);
+
     try {
+      const downloadUrl = `${window.location.protocol}//${
+        window.location.hostname
+      }${
+        window.location.port ? `:${window.location.port}` : ""
+      }/books/${id}/download/`;
+
+      // Скачиваем файл через fetch
+      const response = await fetch(downloadUrl, {
+        method: "GET",
+        headers: {
+          Accept: "application/pdf",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      // Проверяем тип контента
+      const contentType = response.headers.get("content-type");
+
+      if (!contentType?.includes("application/pdf")) {
+        // Если это не PDF, открываем в новой вкладке
+        console.warn("Received non-PDF content, opening in new tab");
+        window.open(downloadUrl, "_blank");
+        return;
+      }
+
+      // Создаем blob из ответа
+      const blob = await response.blob();
+
+      // Создаем временный URL для blob
+      const blobUrl = window.URL.createObjectURL(blob);
+
+      // Создаем ссылку и кликаем
       const link = document.createElement("a");
-      link.href = downloadUrl;
+      link.href = blobUrl;
       link.download = `${name}.pdf`;
       document.body.appendChild(link);
       link.click();
+
+      // Очищаем
       document.body.removeChild(link);
+
+      // Освобождаем память через небольшую задержку
+      setTimeout(() => {
+        window.URL.revokeObjectURL(blobUrl);
+      }, 100);
     } catch (error) {
       console.error("Download error:", error);
-      // fallback — если браузер блокирует автоматическое скачивание
-      window.open(downloadUrl, "_blank");
+      alert(
+        "Ката кетти! Файлды жүктөөгө болбоду. Интернет туташууну текшериңиз."
+      );
     } finally {
       setIsDownloading(false);
     }
