@@ -82,12 +82,10 @@ const DetailsPage: FC = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      // Проверяем тип контента
       const contentType = response.headers.get("content-type");
 
       if (!contentType?.includes("application/pdf")) {
-        // Если это не PDF, открываем в новой вкладке
-        console.warn("Received non-PDF content, opening in new tab");
+        console.warn("Received non-PDF content, openinsg in new tab");
         window.open(downloadUrl, "_blank");
         return;
       }
