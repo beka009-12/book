@@ -1,19 +1,16 @@
 export const handleDownload = async (
   id: string,
   name: string,
-  setIsDownloading: any
+  setIsDownloading: (v: boolean) => void
 ) => {
-  const downloadUrl = `${window.location.protocol}//${
-    window.location.hostname
-  }${
-    window.location.port ? `:${window.location.port}` : ""
-  }/books/${id}/download/`;
+  const downloadUrl = `${window.location.origin}/books/${id}/download`;
 
   setIsDownloading(true);
   try {
     const link = document.createElement("a");
     link.href = downloadUrl;
     link.download = `${name}.pdf`;
+    link.style.display = "none";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
