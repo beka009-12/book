@@ -57,7 +57,7 @@ const BookCards: FC<BookCardsProps> = ({ book, onClick }) => {
         {book.category && (
           <p className={scss.category}>{book.category.category_name}</p>
         )}
-        <span className={scss.year}>{book.publication_year}</span>
+        <span className={scss.year}>{book.publication_year}.ж</span>
       </div>
     </article>
   );

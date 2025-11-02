@@ -1,5 +1,6 @@
 import { FC } from "react";
 import scss from "./Contact.module.scss";
+import MapComponent from "../../2gis/MapComponent";
 import {
   FaWhatsapp,
   FaInstagram,

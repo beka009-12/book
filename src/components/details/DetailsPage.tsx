@@ -115,12 +115,30 @@ const DetailsPage: FC = () => {
                   </button>
                 )}
                 <button
-                  disabled={isDownloading}
-                  onClick={() =>
-                    id &&
-                    book &&
-                    handleDownload(id, book.book_name, setIsDownloading)
-                  }
+                  disabled={isDownloading || !fixImageUrl(book.book_pdf)}
+                  onClick={async () => {
+                    if (!id || !book) return;
+                    const url = fixImageUrl(book.book_pdf);
+                    if (!url) return;
+
+                    setIsDownloading(true);
+
+                    try {
+                      const link = document.createElement("a");
+                      link.href = url;
+
+                      link.download = `${book.book_name}.pdf`;
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                    } catch (err) {
+                      console.error("Download error:", err);
+                      alert("Жүктөөдө ката кетти");
+                      window.open(url, "_blank");
+                    } finally {
+                      setIsDownloading(false);
+                    }
+                  }}
                   className={scss.download}
                   style={{
                     cursor: isDownloading ? "not-allowed" : "pointer",
@@ -128,7 +146,7 @@ const DetailsPage: FC = () => {
                   }}
                 >
                   <FaDownload style={{ marginRight: "8px" }} />
-                  {isDownloading ? "Жүктөлүп жатат..." : "Жүктоо"}
+                  {isDownloading ? "Жүктөлүп жатат..." : "Жүктөө"}
                 </button>
 
                 <button onClick={handleLike} className={scss.like}>
