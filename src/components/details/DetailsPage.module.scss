@@ -155,11 +155,19 @@
       .like {
         background: linear-gradient(to right, #ff6a00, #ee0979);
         color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
         &:hover {
           transform: translateY(-2px);
           box-shadow: 0 8px 18px rgba(167, 89, 40, 0.3);
         }
-        .like:disabled {
+
+        &:disabled {
           background-color: #d3d3d3;
           color: #a1a1a1;
           cursor: not-allowed;

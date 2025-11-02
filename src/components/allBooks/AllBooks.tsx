@@ -29,7 +29,7 @@ const AllBooks: FC<AllBooksProps> = ({ books = [] }) => {
 
   return (
     <section className={scss.AllBooks}>
-      <h1>Баардык китептер</h1>
+      <h1>Бардык китептер</h1>
       <>
         <div className={scss.content}>
           {currentBooks.length === 0 ? (
