@@ -7,7 +7,6 @@ import {
   FaMapMarkerAlt,
   FaPhoneAlt,
 } from "react-icons/fa";
-import GoogleMapComponent from "../../2gis/MapComponent";
 
 const Contact: FC = () => {
   return (
@@ -15,7 +14,7 @@ const Contact: FC = () => {
       <div className="container">
         <div className={scss.content}>
           <div className={scss.mapWrapper}>
-            <GoogleMapComponent />
+            <MapComponent />
           </div>
           <div className={scss.infoWrapper}>
             <div className={scss.card}>
