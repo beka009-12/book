@@ -30,22 +30,18 @@ const DetailsPage: FC = () => {
   useEffect(() => {
     if (!id) return;
 
-    let likedBooks: string[] = [];
     try {
       const stored = localStorage.getItem("Liked-Books");
-      likedBooks = stored ? JSON.parse(stored) : [];
-      if (!Array.isArray(likedBooks)) likedBooks = [];
+      const likedBooks = stored ? JSON.parse(stored) : [];
+      if (Array.isArray(likedBooks)) {
+        setIsLiked(likedBooks.includes(id) || (book?.is_liked ?? false));
+      }
     } catch (error) {
       console.error("Error parsing Liked-Books:", error);
-      likedBooks = [];
     }
-
-    setIsLiked(likedBooks.includes(id) || (book?.is_liked ?? false));
   }, [id, book, setIsLiked]);
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  if (isLoading) return <Loader />;
 
   if (!book) {
     return (
@@ -61,6 +57,31 @@ const DetailsPage: FC = () => {
     if (url.startsWith("http://80.242.57.16"))
       return url.replace("http://80.242.57.16", "http://80.242.57.16:8080");
     return url;
+  };
+
+  // ✅ Универсальная функция скачивания
+  const handleDownload = async (id: string, name: string) => {
+    const downloadUrl = `${window.location.protocol}//${
+      window.location.hostname
+    }${
+      window.location.port ? `:${window.location.port}` : ""
+    }/books/${id}/download/`;
+
+    setIsDownloading(true);
+    try {
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.download = `${name}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Download error:", error);
+      // fallback — если браузер блокирует автоматическое скачивание
+      window.open(downloadUrl, "_blank");
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   return (
@@ -113,31 +134,10 @@ const DetailsPage: FC = () => {
                     <FaBookOpen /> Онлайн окуу
                   </button>
                 )}
+
                 <button
-                  disabled={isDownloading || !fixImageUrl(book.book_pdf)}
-                  onClick={async () => {
-                    if (!id || !book) return;
-                    const url = fixImageUrl(book.book_pdf);
-                    if (!url) return;
-
-                    setIsDownloading(true);
-
-                    try {
-                      const link = document.createElement("a");
-                      link.href = url;
-
-                      link.download = `${book.book_name}.pdf`;
-                      document.body.appendChild(link);
-                      link.click();
-                      document.body.removeChild(link);
-                    } catch (err) {
-                      console.error("Download error:", err);
-                      alert("Жүктөөдө ката кетти");
-                      window.open(url, "_blank");
-                    } finally {
-                      setIsDownloading(false);
-                    }
-                  }}
+                  disabled={isDownloading || !id}
+                  onClick={() => handleDownload(id!, book.book_name)}
                   className={scss.download}
                   style={{
                     cursor: isDownloading ? "not-allowed" : "pointer",
@@ -157,6 +157,7 @@ const DetailsPage: FC = () => {
                 </button>
               </div>
             </div>
+
             <div className={scss.image}>
               <img
                 src={

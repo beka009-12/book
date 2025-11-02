@@ -1,26 +1,25 @@
 export const handleDownload = async (
   id: string,
-  bookName: string,
-  setIsDownloading: (value: boolean) => void
+  name: string,
+  setIsDownloading: any
 ) => {
-  try {
-    setIsDownloading(true);
-    const downloadUrl = `http://80.242.57.16:8080/books/${id}/download/`;
-    const response = await fetch(downloadUrl);
-    if (!response.ok) throw new Error("Download failed");
+  const downloadUrl = `${window.location.protocol}//${
+    window.location.hostname
+  }${
+    window.location.port ? `:${window.location.port}` : ""
+  }/books/${id}/download/`;
 
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
+  setIsDownloading(true);
+  try {
     const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", bookName.replace(/\s+/g, "_") + ".pdf");
+    link.href = downloadUrl;
+    link.download = `${name}.pdf`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
   } catch (error) {
-    alert("Файлды жүктөө мүмкүн эмес. Кийинчерээк аракет кылыңыз.");
     console.error("Download error:", error);
+    window.open(downloadUrl, "_blank");
   } finally {
     setIsDownloading(false);
   }
