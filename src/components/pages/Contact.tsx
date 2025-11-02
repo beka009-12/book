@@ -1,12 +1,12 @@
 import { FC } from "react";
 import scss from "./Contact.module.scss";
-import MapComponent from "../../2gis/MapComponent";
 import {
   FaWhatsapp,
   FaInstagram,
   FaMapMarkerAlt,
   FaPhoneAlt,
 } from "react-icons/fa";
+import GoogleMapComponent from "../../2gis/MapComponent";
 
 const Contact: FC = () => {
   return (
@@ -14,7 +14,7 @@ const Contact: FC = () => {
       <div className="container">
         <div className={scss.content}>
           <div className={scss.mapWrapper}>
-            <MapComponent />
+            <GoogleMapComponent />
           </div>
           <div className={scss.infoWrapper}>
             <div className={scss.card}>
