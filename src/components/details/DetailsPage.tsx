@@ -16,7 +16,6 @@ import not from "../../assets/notFound.svg";
 import Loader from "../../ui/loader/Loader";
 import { useUserId, useViewLogic } from "../../hooks/use-user-id";
 import { useLikeBook } from "../../hooks/like/Like";
-import { handleDownload } from "./download/Download";
 
 const DetailsPage: FC = () => {
   const navigate = useNavigate();
