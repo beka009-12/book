@@ -59,62 +59,45 @@ const DetailsPage: FC = () => {
     return url;
   };
 
-  // ✅ Исправленная функция скачивания
-  const handleDownload = async (id: string, name: string) => {
+  // ✅ Временное решение - используем CORS proxy
+  const handleDownload = async () => {
+    if (!id) return;
+
     setIsDownloading(true);
 
     try {
-      const downloadUrl = `${window.location.protocol}//${
-        window.location.hostname
-      }${
-        window.location.port ? `:${window.location.port}` : ""
-      }/books/${id}/download/`;
+      // CORS proxy для обхода Mixed Content
+      const targetUrl = `http://80.242.57.16:8080/books/${id}/download/`;
+      const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
 
-      // Скачиваем файл через fetch
-      const response = await fetch(downloadUrl, {
+      console.log("Downloading from:", proxyUrl);
+
+      const response = await fetch(proxyUrl, {
         method: "GET",
-        headers: {
-          Accept: "application/pdf",
-        },
       });
+
+      console.log("Response status:", response.status);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const contentType = response.headers.get("content-type");
-
-      if (!contentType?.includes("application/pdf")) {
-        console.warn("Received non-PDF content, openinsg in new tab");
-        window.open(downloadUrl, "_blank");
-        return;
-      }
-
-      // Создаем blob из ответа
       const blob = await response.blob();
-
-      // Создаем временный URL для blob
       const blobUrl = window.URL.createObjectURL(blob);
 
-      // Создаем ссылку и кликаем
       const link = document.createElement("a");
       link.href = blobUrl;
-      link.download = `${name}.pdf`;
+      link.download = `${book.book_name}.pdf`;
       document.body.appendChild(link);
       link.click();
-
-      // Очищаем
       document.body.removeChild(link);
 
-      // Освобождаем память через небольшую задержку
       setTimeout(() => {
         window.URL.revokeObjectURL(blobUrl);
       }, 100);
     } catch (error) {
       console.error("Download error:", error);
-      alert(
-        "Ката кетти! Файлды жүктөөгө болбоду. Интернет туташууну текшериңиз."
-      );
+      alert("Ката кетти! Файлды жүктөөгө болбоду.");
     } finally {
       setIsDownloading(false);
     }
@@ -173,7 +156,7 @@ const DetailsPage: FC = () => {
 
                 <button
                   disabled={isDownloading || !id}
-                  onClick={() => handleDownload(id!, book.book_name)}
+                  onClick={handleDownload}
                   className={scss.download}
                   style={{
                     cursor: isDownloading ? "not-allowed" : "pointer",
