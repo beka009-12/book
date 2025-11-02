@@ -67,7 +67,7 @@ const DetailsPage: FC = () => {
 
     try {
       // CORS proxy для обхода Mixed Content
-      const targetUrl = `http://80.242.57.16:8080/books/${id}/download/`;
+      const targetUrl = `${window.location.origin}/books/${id}/download/`;
       const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
 
       console.log("Downloading from:", proxyUrl);
