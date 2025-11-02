@@ -26,6 +26,14 @@ const DetailsPage: FC = () => {
   useViewLogic(id, userId);
 
   const { isLiked, setIsLiked, handleLike } = useLikeBook(id, userId, refetch);
+  const [showSparks, setShowSparks] = useState(false);
+
+  // Функция для показа искр при лайке
+  const handleLikeWithAnimation = () => {
+    handleLike();
+    setShowSparks(true);
+    setTimeout(() => setShowSparks(false), 1000);
+  };
 
   useEffect(() => {
     if (!id) return;
@@ -67,7 +75,7 @@ const DetailsPage: FC = () => {
 
     try {
       // CORS proxy для обхода Mixed Content
-      const targetUrl = `${window.location.origin}/books/${id}/download/`;
+      const targetUrl = `http://80.242.57.16:8080/books/${id}/download/`;
       const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
 
       console.log("Downloading from:", proxyUrl);
@@ -167,8 +175,85 @@ const DetailsPage: FC = () => {
                   {isDownloading ? "Жүктөлүп жатат..." : "Жүктөө"}
                 </button>
 
-                <button onClick={handleLike} className={scss.like}>
-                  <FaHeart style={{ color: isLiked ? "red" : "white" }} /> Жакты
+                <button onClick={handleLikeWithAnimation} className={scss.like}>
+                  <FaHeart
+                    style={{
+                      color: isLiked ? "red" : "white",
+                      transform: showSparks ? "scale(1.3)" : "scale(1)",
+                      transition: "transform 0.2s ease",
+                    }}
+                  />{" "}
+                  Жакты
+                  {showSparks && (
+                    <>
+                      {[...Array(8)].map((_, i) => (
+                        <span
+                          key={i}
+                          style={{
+                            position: "absolute",
+                            left: "50%",
+                            top: "50%",
+                            width: "8px",
+                            height: "8px",
+                            background: isLiked ? "red" : "#ff6b6b",
+                            borderRadius: "50%",
+                            animation: `spark-${i} 0.6s ease-out forwards`,
+                            pointerEvents: "none",
+                          }}
+                        />
+                      ))}
+                      <style>{`
+                        @keyframes spark-0 {
+                          to {
+                            transform: translate(-30px, -30px);
+                            opacity: 0;
+                          }
+                        }
+                        @keyframes spark-1 {
+                          to {
+                            transform: translate(30px, -30px);
+                            opacity: 0;
+                          }
+                        }
+                        @keyframes spark-2 {
+                          to {
+                            transform: translate(-30px, 30px);
+                            opacity: 0;
+                          }
+                        }
+                        @keyframes spark-3 {
+                          to {
+                            transform: translate(30px, 30px);
+                            opacity: 0;
+                          }
+                        }
+                        @keyframes spark-4 {
+                          to {
+                            transform: translate(-40px, 0);
+                            opacity: 0;
+                          }
+                        }
+                        @keyframes spark-5 {
+                          to {
+                            transform: translate(40px, 0);
+                            opacity: 0;
+                          }
+                        }
+                        @keyframes spark-6 {
+                          to {
+                            transform: translate(0, -40px);
+                            opacity: 0;
+                          }
+                        }
+                        @keyframes spark-7 {
+                          to {
+                            transform: translate(0, 40px);
+                            opacity: 0;
+                          }
+                        }
+                      `}</style>
+                    </>
+                  )}
                 </button>
 
                 <button onClick={() => navigate("/")} className={scss.back}>

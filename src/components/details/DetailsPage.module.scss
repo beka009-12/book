@@ -161,10 +161,16 @@
         border-radius: 8px;
         cursor: pointer;
         transition: all 0.3s ease;
+        position: relative; // ← Добавлено для искр
+        overflow: visible; // ← Добавлено чтобы искры были видны
 
         &:hover {
           transform: translateY(-2px);
           box-shadow: 0 8px 18px rgba(167, 89, 40, 0.3);
+        }
+
+        &:active {
+          transform: scale(0.95); // ← Эффект нажатия
         }
 
         &:disabled {
