@@ -61,26 +61,23 @@ const DetailsPage: FC = () => {
 
   const fixImageUrl = (url: string | null | undefined) => {
     if (!url) return null;
-    if (url.startsWith("http://80.242.57.16:8080")) return url;
-    if (url.startsWith("http://80.242.57.16"))
-      return url.replace("http://80.242.57.16", "http://80.242.57.16:8080");
+    if (url.startsWith("https://mpu.kg")) return url;
+    if (url.startsWith("https://mpu.kg"))
+      return url.replace("https://mpu.kg", "https://mpu.kg");
     return url;
   };
 
-  // ✅ Временное решение - используем CORS proxy
   const handleDownload = async () => {
     if (!id) return;
 
     setIsDownloading(true);
 
     try {
-      // CORS proxy для обхода Mixed Content
-      const targetUrl = `http://80.242.57.16:8080/books/${id}/download/`;
-      const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
+      const downloadUrl = `${import.meta.env.VITE_BASE_URL}books/${id}/download/`;
 
-      console.log("Downloading from:", proxyUrl);
+      console.log("Downloading from:", downloadUrl);
 
-      const response = await fetch(proxyUrl, {
+      const response = await fetch(downloadUrl, {
         method: "GET",
       });
 
