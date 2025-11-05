@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://80.242.57.16:8080',
+        target: 'https://mpu.kg',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       }

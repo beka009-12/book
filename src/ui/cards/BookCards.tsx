@@ -28,9 +28,9 @@ const BookCards: FC<BookCardsProps> = ({ book, onClick }) => {
 
   const fixImageUrl = (url: string | null | undefined) => {
     if (!url) return null;
-    if (url.startsWith("http://80.242.57.16:8080")) return url;
-    if (url.startsWith("http://80.242.57.16"))
-      return url.replace("http://80.242.57.16", "http://80.242.57.16:8080");
+    if (url.startsWith("https://mpu.kg")) return url;
+    if (url.startsWith("https://mpu.kg"))
+      return url.replace("https://mpu.kg", "https://mpu.kg");
     return url;
   };
 
