@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+User-agent: *
+Disallow: /src/
+Disallow: /node_modules/
+
+Sitemap: https://mpu.kg/sitemap.xml

@@ -5,8 +5,8 @@ import { IoMdClose } from "react-icons/io";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { DebounceInput } from "react-debounce-input";
 import { links } from "../../../constants/Link";
-import logo from "../../../assets/logo.png";
-import anniversary from "../../../assets/image.webp";
+import logo from "../../../public/logo.png";
+import anniversary from "../../../public/image.webp";
 import scss from "./Header.module.scss";
 import { useSearchBooks } from "../../../features/header/UseSearchBooks";
 

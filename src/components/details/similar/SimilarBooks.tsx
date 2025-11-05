@@ -4,7 +4,7 @@ import BookCards from "../../../ui/cards/BookCards";
 import { IBook } from "../../../types";
 import { useGetProductQuery } from "../../../store/api/book";
 import Loader from "../../../ui/loader/Loader";
-import not from "../../../assets/notFound.svg";
+import not from "../../../public/notFound.svg";
 
 interface SimilarBooksProps {
   category: { category_name: string };

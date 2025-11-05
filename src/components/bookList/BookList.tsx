@@ -1,7 +1,7 @@
 import scss from "./BookList.module.scss";
 import BookCards from "../../ui/cards/BookCards";
 import { IBook } from "../../types";
-import not from "../../assets/notFound.svg";
+import not from "../../public/notFound.svg";
 
 interface Props {
   books: IBook[];

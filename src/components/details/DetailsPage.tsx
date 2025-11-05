@@ -12,7 +12,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetBookByIdQuery } from "../../store/api/book";
 import SimilarBooks from "./similar/SimilarBooks";
-import not from "../../assets/notFound.svg";
+import not from "../../public/notFound.svg";
 import Loader from "../../ui/loader/Loader";
 import { useUserId, useViewLogic } from "../../hooks/use-user-id";
 import { useLikeBook } from "../../hooks/like/Like";
@@ -73,7 +73,9 @@ const DetailsPage: FC = () => {
     setIsDownloading(true);
 
     try {
-      const downloadUrl = `${import.meta.env.VITE_BASE_URL}books/${id}/download/`;
+      const downloadUrl = `${
+        import.meta.env.VITE_BASE_URL
+      }books/${id}/download/`;
 
       console.log("Downloading from:", downloadUrl);
 

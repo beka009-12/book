@@ -4,7 +4,7 @@ import BookCards from "../../ui/cards/BookCards";
 import { Pagination, Stack } from "@mui/material";
 import ScrollToTop from "../avtoScroll/AvtoScroll";
 import { IBook } from "../../types";
-import not from "../../assets/notFound.svg";
+import not from "../../public/notFound.svg";
 
 interface AllBooksProps {
   books: IBook[];

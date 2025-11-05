@@ -34,4 +34,5 @@ export interface IPopularBooks {
   author: string;
   view_count: number;
   book_image: string;
+  publication_year: number;
 }
