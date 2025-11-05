@@ -49,7 +49,6 @@ const PopularCards: FC<BookCardsProps> = ({ book, onClick }) => {
       <div className={scss.text}>
         <h2 className={scss.title}>{book.name}</h2>
         <p className={scss.description}>{book.author}</p>
-        <span className={scss.year}>{book.publication_year}.ж</span>
       </div>
     </article>
   );
