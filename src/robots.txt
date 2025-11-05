@@ -1,8 +1,6 @@
 User-agent: *
-Allow: /
-
-User-agent: *
 Disallow: /src/
 Disallow: /node_modules/
 
+# Карта сайта
 Sitemap: https://mpu.kg/sitemap.xml
