@@ -1,5 +1,15 @@
+cat > robots.txt << 'EOF'
 User-agent: *
 Disallow: /src/
 Disallow: /node_modules/
+Disallow: /storage/*.php
+Disallow: /*.env
+Disallow: /admin
+Disallow: /login
+Disallow: /register
+Allow: /storage/books/
+Allow: /assets/
+Allow: /
 
 Sitemap: https://mpu.kg/sitemap.xml
+EOF

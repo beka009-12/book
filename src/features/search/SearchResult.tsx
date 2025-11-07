@@ -6,7 +6,7 @@ import Skeleton from "@mui/material/Skeleton";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import ScrollToTop from "../../components/avtoScroll/AvtoScroll";
-import not from "../../public/notFound.svg";
+import not from "../../../public/notFound.svg";
 
 const SearchResult: FC = () => {
   const { data: books = [], isLoading } = useGetProductQuery();

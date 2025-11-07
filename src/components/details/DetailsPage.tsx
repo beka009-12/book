@@ -12,7 +12,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetBookByIdQuery } from "../../store/api/book";
 import SimilarBooks from "./similar/SimilarBooks";
-import not from "../../public/notFound.svg";
+import not from "../../../public/notFound.svg";
 import Loader from "../../ui/loader/Loader";
 import { useUserId, useViewLogic } from "../../hooks/use-user-id";
 import { useLikeBook } from "../../hooks/like/Like";

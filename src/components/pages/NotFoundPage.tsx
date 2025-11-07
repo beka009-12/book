@@ -1,7 +1,7 @@
 import { FC } from "react";
 import scss from "./NotFoundPage.module.scss";
 import { Link } from "react-router-dom";
-import not from "../../public/notFound.svg";
+import not from "../../../public/notFound.svg";
 
 const NotFoundPage: FC = () => {
   return (
